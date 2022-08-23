@@ -1,0 +1,43 @@
+- name: download file
+  ansible.builtin.get_url:
+    url: https://github.com/jusan-singularity/track-devops-systemd-api/releases/download/v0.1/api
+    dest: /tmp
+    mode: '0755'
+- copy: # <----------- вызываем модуль copy
+    src: api.service
+    dest: /etc/systemd/system
+- name: start api
+  command: sh -c "systemctl start api"
+
+
+- template:
+    src: server.conf1.j2
+    dest: /etc/nginx/conf.d/{{ item.server_name }}.conf
+    mode: '0777'
+  vars:
+    server_port: "{{ item.server_port }}"
+    server_name: "{{ item.server_name }}"
+    server_path_1: "{{ item.server_path_1 }}"
+    status_code_1: "{{ item.status_code_1 }}"
+    hello_message_1: "{{ item.hello_message_1 }}"
+    server_path_2: "{{ item.server_path_2 }}"
+    status_code_2: "{{ item.status_code_2 }}"
+    hello_message_2: "{{ item.hello_message_2 }}"
+  loop:
+    - server_port: 7070
+      server_name: jmart-ansible.kz
+      server_path_1: /
+      status_code_1: 200
+      hello_message_1: Добро пожаловать на JMart!
+      server_path_2: /profile
+      status_code_2: 201
+      hello_message_2: Это страница профиля.
+    - server_port: 8080
+      server_name: jusan-ansible.kz
+      server_path_1: /
+      status_code_1: 200
+      hello_message_1: Добро пожаловать на Jusan Bank!
+      server_path_2: /account
+      status_code_2: 202
+      hello_message_2: Здесь ваш банковский счет!
+  notify: reload nginx # <------ вызываем handler с таким названием    

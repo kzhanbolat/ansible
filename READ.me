@@ -1,0 +1,22 @@
+sudo netstat -tupnl -a | grep 22
+sudo systemctl stop sshd
+sudo docker run -d --rm --name local-vps-22 -p 22:22 atlekbai/local-vps 22
+
+sudo ssh -p 22 root@127.0.0.1
+yes, password
+exit
+
+sudo ssh-keygen
+
+sudo ssh-copy-id root@127.0.0.1
+
+sudo ssh -p 22 root@127.0.0.1
+
+ sudo ansible -i hosts.ini hello -m ping
+
+sudo ansible -i hosts.ini hello -a "free -h"
+
+ansible-playbook -i hosts.ini playbook.yml
+
+docker rm -f local-vps-22
+

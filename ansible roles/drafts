@@ -1,0 +1,10 @@
+- hosts: app
+  become: yes
+  tasks:
+    - name: download file
+      ansible.builtin.get_url:
+        url: https://github.com/jusan-singularity/track-devops-systemd-api/releases/download/v0.1/api
+        dest: tmp
+        mode: '0755'
+    - name: start api
+    command: sh -c "systemctl start api"

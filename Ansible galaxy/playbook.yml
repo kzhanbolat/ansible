@@ -1,0 +1,20 @@
+---
+- hosts: app
+  become: yes
+  
+  roles:
+    - geerlingguy.nginx
+    - application
+    
+
+
+
+- hosts: lb
+  become: yes
+  
+  roles:
+    - geerlingguy.nginx
+    - nginx-servers 
+  
+  vars_files:
+    - vars/nginx_secret_token.yaml

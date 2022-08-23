@@ -1,0 +1,6 @@
+---
+ roles:
+  - name: geerlingguy.nginx
+
+  - name: geerlingguy.php
+    version: 4.7.0
